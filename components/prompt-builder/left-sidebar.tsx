@@ -190,7 +190,7 @@ export default function LeftSidebar({ state, updateState, resetState }: LeftSide
   ];
 
   return (
-    <div className="w-80 bg-[#0f0f0f] border-r border-white/10 flex flex-col">
+    <div className="w-80 bg-[#0f0f0f] border-r border-white/10 flex flex-col h-screen">
       <div className="p-4 border-b border-white/10 flex items-center justify-between">
         <h2 className="text-sm font-semibold text-white tracking-wider">PROMPT BUILDER</h2>
         <Button
