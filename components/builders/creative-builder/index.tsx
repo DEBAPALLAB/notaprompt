@@ -5,45 +5,48 @@ import LeftSidebar from "./left-sidebar";
 import PreviewPanel from "./preview-panel";
 import RightSidebar from "./right-sidebar";
 
-export interface BuilderState {
-  layoutType: string;
-  layoutConfig: string;
-  framing: string;
+export interface CreativeBuilderState {
+  contentType: string;
   style: string;
-  theme: "light" | "dark";
-  accentColor: string;
-  backgroundColor: string;
-  deviceMode: "web" | "mobile";
+  mood: string;
+  composition: string;
+  colors: string;
+  lighting: string;
+  quality: string;
+  aspectRatio: string;
+  platform: string;
   generatedPrompts: string[];
 }
 
-export default function PromptBuilder() {
-  const [state, setState] = useState<BuilderState>({
-    layoutType: "",
-    layoutConfig: "",
-    framing: "",
+export default function CreativePromptBuilder() {
+  const [state, setState] = useState<CreativeBuilderState>({
+    contentType: "",
     style: "",
-    theme: "dark",
-    accentColor: "blue",
-    backgroundColor: "transparent",
-    deviceMode: "web",
+    mood: "",
+    composition: "",
+    colors: "",
+    lighting: "",
+    quality: "",
+    aspectRatio: "",
+    platform: "",
     generatedPrompts: [],
   });
 
-  const updateState = (updates: Partial<BuilderState>) => {
+  const updateState = (updates: Partial<CreativeBuilderState>) => {
     setState((prev) => ({ ...prev, ...updates }));
   };
 
   const resetState = () => {
     setState({
-      layoutType: "",
-      layoutConfig: "",
-      framing: "",
+      contentType: "",
       style: "",
-      theme: "dark",
-      accentColor: "blue",
-      backgroundColor: "transparent",
-      deviceMode: "web",
+      mood: "",
+      composition: "",
+      colors: "",
+      lighting: "",
+      quality: "",
+      aspectRatio: "",
+      platform: "",
       generatedPrompts: [],
     });
   };
@@ -56,7 +59,7 @@ export default function PromptBuilder() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex">
+    <div className="max-h-screen bg-black flex">
       <LeftSidebar state={state} updateState={updateState} resetState={resetState} />
       <PreviewPanel state={state} />
       <RightSidebar state={state} addToPrompts={addToPrompts} />
