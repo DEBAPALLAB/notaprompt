@@ -15,10 +15,11 @@ export interface CodingBuilderState {
   testing: string;
   optimization: string;
   errorHandling: string;
-  generatedPrompts: string[];
+  generatedPrompts: string[]; // keep for now, even if unused
 }
 
 export default function CodingPromptBuilder() {
+  // LEFT SIDEBAR STATE
   const [state, setState] = useState<CodingBuilderState>({
     taskType: "",
     language: "",
@@ -31,6 +32,9 @@ export default function CodingPromptBuilder() {
     errorHandling: "",
     generatedPrompts: [],
   });
+
+  // 🔑 SINGLE SOURCE OF TRUTH FOR OUTPUT
+  const [activePrompt, setActivePrompt] = useState<string | null>(null);
 
   const updateState = (updates: Partial<CodingBuilderState>) => {
     setState((prev) => ({ ...prev, ...updates }));
@@ -49,21 +53,33 @@ export default function CodingPromptBuilder() {
       errorHandling: "",
       generatedPrompts: [],
     });
+    setActivePrompt(null);
   };
 
+  // 👇 RightSidebar calls this
   const addToPrompts = (prompt: string) => {
-    setState((prev) => ({
-      ...prev,
-      generatedPrompts: [prompt], // overwrite instead of append
-    }));
+    setActivePrompt(prompt);
   };
-
 
   return (
     <div className="max-h-screen bg-black flex">
-      <LeftSidebar state={state} updateState={updateState} resetState={resetState} />
-      <PreviewPanel state={state} />
-      <RightSidebar state={state} addToPrompts={addToPrompts} />
+      <LeftSidebar
+        state={state}
+        updateState={updateState}
+        resetState={resetState}
+      />
+
+      {/* MIDDLE PREVIEW — OUTPUT LIVES HERE */}
+      <PreviewPanel
+        state={state}
+        activePrompt={activePrompt}
+      />
+
+      {/* RIGHT SIDEBAR — INPUT ONLY */}
+      <RightSidebar
+        state={state}
+        addToPrompts={addToPrompts}
+      />
     </div>
   );
 }

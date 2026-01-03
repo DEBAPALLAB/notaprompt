@@ -3,12 +3,20 @@
 import { CodingBuilderState } from "./index";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Code2, Terminal, FileCode } from "lucide-react";
+import { useState } from "react";
 
 interface PreviewPanelProps {
   state: CodingBuilderState;
+  activePrompt: string | null;
 }
 
-export default function PreviewPanel({ state }: PreviewPanelProps) {
+
+export default function PreviewPanel({
+  state,
+  activePrompt,
+}: PreviewPanelProps) {
+  const [copied, setCopied] = useState(false);
+
   const hasSelection = state.taskType || state.language || state.framework;
 
   return (
@@ -177,6 +185,83 @@ export default function PreviewPanel({ state }: PreviewPanelProps) {
           </div>
         </div>
       </ScrollArea>
+     {activePrompt && (
+  <div className="mt-8 border-t border-blue-500/20 pt-6">
+    <h3 className="text-xs font-semibold text-blue-300 tracking-wider mb-3">
+      COMPILED PROMPT
+    </h3>
+
+    <div className="bg-black/60 border border-blue-500/20 rounded-xl p-4 text-sm text-white/80 whitespace-pre-wrap font-mono">
+      {activePrompt}
+    </div>
+
+    {/* ACTIONS */}
+    <div className="flex flex-wrap gap-2 mt-4">
+      {/* COPY */}
+      <button
+        onClick={() => {
+          navigator.clipboard.writeText(activePrompt);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1500);
+        }}
+        className="px-3 py-1.5 text-xs rounded-md border border-blue-500/20 text-white/80 hover:bg-white/5 transition"
+      >
+        {copied ? "Copied ✓" : "Copy Prompt"}
+      </button>
+
+      {/* CHATGPT */}
+      <button
+        onClick={() => {
+          localStorage.setItem("lastAI", "chatgpt");
+          window.open(
+            `https://chatgpt.com/?q=${encodeURIComponent(activePrompt)}`,
+            "_blank"
+          );
+        }}
+        className="px-3 py-1.5 text-xs rounded-md border border-blue-500/20 text-white/80 hover:bg-white/5 transition"
+      >
+        Send to ChatGPT
+      </button>
+
+      {/* GEMINI */}
+      <button
+        onClick={() => {
+          localStorage.setItem("lastAI", "gemini");
+          window.open(
+            `https://gemini.google.com/app?prompt=${encodeURIComponent(
+              activePrompt
+            )}`,
+            "_blank"
+          );
+        }}
+        className="px-3 py-1.5 text-xs rounded-md border border-blue-500/20 text-white/80 hover:bg-white/5 transition"
+      >
+        Send to Gemini
+      </button>
+
+      {/* AUTO-OPEN LAST USED */}
+      <button
+        onClick={() => {
+          const lastAI = localStorage.getItem("lastAI");
+
+          const url =
+            lastAI === "gemini"
+              ? `https://gemini.google.com/app?prompt=${encodeURIComponent(
+                  activePrompt
+                )}`
+              : `https://chatgpt.com/?q=${encodeURIComponent(activePrompt)}`;
+
+          window.open(url, "_blank");
+        }}
+        className="px-3 py-1.5 text-xs rounded-md border border-blue-500/20 text-blue-300 hover:bg-white/5 transition"
+      >
+        Send to Last Used AI
+      </button>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 }
