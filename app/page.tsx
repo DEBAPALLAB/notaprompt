@@ -1,4 +1,21 @@
 "use client";
+import { compilePrompt } from "@/lib/compilePrompt";
+
+const result = compilePrompt({
+  builder: "coding",
+  baseInput: "Build a JWT authentication system",
+  selections: {
+    taskType: "generate",
+    language: "typescript",
+    framework: "nextjs",
+    testing: "unit",
+  },
+  logicPills: ["edgeCases", "validation"],
+  persona: "seniorBackend",
+  mode: "aggressive",
+});
+
+console.log(result);
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Code2, Search, Image as ImageIcon, Sparkles, Zap, Lightbulb, Rocket } from "lucide-react";

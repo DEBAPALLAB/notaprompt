@@ -54,9 +54,10 @@ export default function CodingPromptBuilder() {
   const addToPrompts = (prompt: string) => {
     setState((prev) => ({
       ...prev,
-      generatedPrompts: [...prev.generatedPrompts, prompt],
+      generatedPrompts: [prompt], // overwrite instead of append
     }));
   };
+
 
   return (
     <div className="max-h-screen bg-black flex">
