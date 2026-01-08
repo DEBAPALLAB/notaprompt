@@ -39,8 +39,19 @@ ${input}
   });
 
   const data = await res.json();
+  console.log("OpenRouter FULL response:", JSON.stringify(data, null, 2));
 
-  const enhanced = data?.choices?.[0]?.message?.content;
+  const enhanced =
+  data?.choices?.[0]?.message?.content?.trim() ||
+  data?.choices?.[0]?.text?.trim();
+
+if (!enhanced) {
+  console.error("OpenRouter returned no content:", data);
+  return NextResponse.json(
+    { error: "No enhancement generated" },
+    { status: 500 }
+  );
+}
 
   if (!enhanced) {
     return NextResponse.json(
@@ -48,6 +59,7 @@ ${input}
       { status: 500 }
     );
   }
+  console.log("OpenRouter raw response:", data);
 
   return NextResponse.json({ enhanced });
 }
