@@ -89,14 +89,15 @@ export default function PreviewPanel({
                   </div>
 
                   <div className="font-mono text-sm space-y-2 text-white/80">
-                    {state.taskType && <div>// Task: {state.taskType}</div>}
-                    {state.language && <div>// Language: {state.language}</div>}
-                    {state.framework && <div>// Framework: {state.framework}</div>}
-                    {state.codeStyle && <div>// Style: {state.codeStyle}</div>}
+                    {state.taskType && <div>{"//"} Task: {state.taskType}</div>}
+                    {state.language && <div>{"//"} Language: {state.language}</div>}
+                    {state.framework && <div>{"//"} Framework: {state.framework}</div>}
+                    {state.codeStyle && <div>{"//"} Style: {state.codeStyle}</div>}
                     <div className="text-white/60">function generateCode() {"{"}</div>
-                    <div className="pl-4 text-white/40">// implementation</div>
+                    <div className="pl-4 text-white/40">{"//"} implementation</div>
                     <div className="text-white/60">{"}"}</div>
                   </div>
+
                 </div>
               </motion.div>
             )}

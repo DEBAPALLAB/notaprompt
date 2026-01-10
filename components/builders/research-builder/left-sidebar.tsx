@@ -14,7 +14,7 @@ interface LeftSidebarProps {
 
 export default function LeftSidebar({ state, updateState, resetState }: LeftSidebarProps) {
 
-  const Section = ({ title, field, items }: any) => (
+  const Section = ({ title, field, items }: { title: string, field: keyof ResearchBuilderState, items: any[] }) => (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <h3 className="text-xs font-semibold text-purple-300 tracking-wider">
@@ -31,6 +31,7 @@ export default function LeftSidebar({ state, updateState, resetState }: LeftSide
         )}
       </div>
 
+
       <div className="grid grid-cols-2 gap-2">
         {items.map((item: any) => {
           const active = state[field] === item.id;
@@ -40,11 +41,10 @@ export default function LeftSidebar({ state, updateState, resetState }: LeftSide
               key={item.id}
               onClick={() => updateState({ [field]: item.id })}
               variant="ghost"
-              className={`h-14 text-xs transition-all duration-200 ${
-                active
+              className={`h-14 text-xs transition-all duration-200 ${active
                   ? "bg-purple-600/90 hover:bg-purple-700 text-white shadow-lg shadow-purple-500/20 scale-[1.03]"
                   : "bg-white/5 hover:bg-white/10 text-white/60 border border-purple-500/20 scale-[1]"
-              }`}
+                }`}
             >
               {item.label}
             </Button>
